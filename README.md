@@ -15,7 +15,7 @@ The tech stack chosen for the codebase is:
 - Jest. Unit testing
 - Playwright. E2E testing
 
-## Things You Need to Know (Key Concepts)
+## Things You Need to Know (Core Concepts)
 
 ### Authentication
 The whole idea of introducing Google authentication is to demonstrate in a very basic way (in the router component) how client-side we can route a user based on whether they are authenicated or not
