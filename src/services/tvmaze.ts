@@ -147,7 +147,14 @@ export const getShows = async (page?: number): Promise<ShowsResponse> => {
   }
 };
 
-export const searchShows = async (query: string) => {};
+export const searchShows = async (query: { [key: string]: string }) => {
+  const data = await tvMazeApiCall({
+    endpoint: 'search/shows',
+    query,
+  });
+
+  return { data };
+};
 
 export const getCast = async (id: number) => {
   const results = await tvMazeApiCall({

@@ -18,13 +18,10 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const signInWithGoogle = () => {
-  console.warn('Sign in with Google!!!!');
-
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
-  signInWithPopup(auth, provider).then((result) => {
-    console.warn(`/!\\ AUTHENTICATED /!\\\n`, { result });
+  signInWithPopup(auth, provider).then(() => {
     router.replace('/browse');
   }).catch((error) => {
     console.error(`/!\\ AUTHENTICATION ERROR /!\\\n`, { error });

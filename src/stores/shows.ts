@@ -59,10 +59,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
     getImages(shows.value.currentPage?.data[randomIndex].id as number)
     .then((images) => {
       const banner = images.find((image: any) => image.type === 'banner');
-      setTimeout(() => {
-        randomShowBanner.value = banner?.resolutions?.original?.url ?? images[0].resolutions.original.url;
-        console.warn('BANNER!!!!\n', randomShowBanner.value);
-      }, 1000);
+      randomShowBanner.value = banner?.resolutions?.original?.url ?? images[0].resolutions.original.url;
     });
 
     return shows.value.currentPage?.data[randomIndex];
@@ -76,7 +73,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
     return results;
   };
 
-  const searchShows = async (query: string) => {
+  const searchShows = async (query: { [key: string]: string }) => {
     const results = await searchShowsService(query);
     searchResults.value = results;
     return results;

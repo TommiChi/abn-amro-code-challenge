@@ -9,9 +9,6 @@ const route = useRoute();
 
 onMounted(() => {
   showsStore.getDetails(Number(route.path.split('/').pop()))
-    .then((results) => {
-      console.warn('/!\\\n showsStore2\n', { results });
-    });
 });
 </script>
 <template>
