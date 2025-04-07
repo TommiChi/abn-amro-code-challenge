@@ -8,7 +8,7 @@ type ShowsState = {
   pageIndex: number | null;
 };
 
-type SearchState = any;
+type SearchState = unknown;
 
 export const useTvMaze = defineStore('tvMaze', () => {
   const shows = ref<ShowsState>({
@@ -58,7 +58,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
     getCast(shows.value.currentPage?.data[randomIndex].id as number);
     getImages(shows.value.currentPage?.data[randomIndex].id as number)
     .then((images) => {
-      const banner = images.find((image: any) => image.type === 'banner');
+      const banner = images.find((image: unknown) => image.type === 'banner');
       randomShowBanner.value = banner?.resolutions?.original?.url ?? images[0].resolutions.original.url;
     });
 
@@ -95,7 +95,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
     const results = await getShowDetails(id);
 
     showDetails.value = results;
-    detailsBanner.value = results.images.find((image: any) => image.type === 'banner')?.resolutions?.original?.url ?? results.images[0].resolutions.original.url;
+    detailsBanner.value = results.images.find((image: unknown) => image.type === 'banner')?.resolutions?.original?.url ?? results.images[0].resolutions.original.url;
     return results;
   };
 

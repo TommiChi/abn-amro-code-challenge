@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { onMounted, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useTvMaze } from '@/stores/shows';
-import Stars from '@/components/Stars.vue';
+import Stars from '@/components/RatingStars.vue';
 import WithLogoHeader from '@/components/WithLogoHeader.vue';
 import NetflixAnimation from '@/components/NetflixAnimation.vue';
 

@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import WithLogoHeader from '@/components/WithLogoHeader.vue';
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

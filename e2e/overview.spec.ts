@@ -22,6 +22,6 @@ test('logs in with a Google account and goes to the overview page', async ({ pag
 
   await expect(page.locator('input')).toHaveAttribute('placeholder');
 
-  const placeholderText = await page.locator('input').getAttribute('placeholder');
-  await expect(placeholderText).toBe('Search for a show...');
+  const placeholderText = page.locator('input');
+  await await expect(placeholderText).toHaveAttribute('placeholder', 'Search for a show...');
 });

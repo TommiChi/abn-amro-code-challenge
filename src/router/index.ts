@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vu
 import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import HomeView from '../views/HomeView.vue';
-import NotFound from '../views/NotFound.vue';
+import NotFound from '../views/NotFoundView.vue';
 
 const firebaseConfig = {
   apiKey: "AIzaSyApavUqR6DH4c96Es63CeOz4OizYDT8FhM",
@@ -28,7 +28,7 @@ const router = createRouter({
     {
       path: '/browse',
       name: 'browse',
-      component: () => import('@/views/Overview.vue'),
+      component: () => import('@/views/OverviewView.vue'),
       meta: {
         requiresAuth: true,
       },
@@ -36,7 +36,7 @@ const router = createRouter({
     {
       path: '/shows/:id',
       name: 'details',
-      component: () => import('@/views/ShowDetails.vue'),
+      component: () => import('@/views/ShowDetailsView.vue'),
       meta: {
         requiresAuth: true,
       },
@@ -47,7 +47,7 @@ const router = createRouter({
       meta: {
         requiresAuth: false,
       },
-      component: () => import('@/views/Login.vue'),
+      component: () => import('@/views/LoginView.vue'),
     },
     {
       path: '/:pathMatch(.*)*', // This matches any path that hasn't been matched above
