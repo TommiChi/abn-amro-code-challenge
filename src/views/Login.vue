@@ -1,5 +1,5 @@
 <template>
-  <WithLogoHeader class="flex flex-col items-center justify-center mt-[58px]">
+  <WithLogoHeader class="flex flex-col items-center justify-center mt-[58px] ml-[50vw] transform-[translateX(-50%)]">
     <h1 class="text-2xl text-logo-yellow">Sign in with:</h1>
     <ul class="list-disc list-inside">
       <li class="text-2xl text-logo-green"><button @click="signInWithGoogle"
