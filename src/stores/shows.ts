@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { getShows as getShowsService, searchShows as searchShowsService, getCast as getCastService, getShowImages, getShowDetails, type ShowsResponse } from '@/services/tvmaze';
+import { getShows as getShowsService, searchShows as searchShowsService, getCast as getCastService, getShowImages, getShowDetails, type ShowsResponse, type Shows, type Image } from '@/services/tvmaze';
 
 type ShowsState = {
   paginationHistory: ShowsResponse[];
@@ -20,8 +20,8 @@ export const useTvMaze = defineStore('tvMaze', () => {
   const searchResults = ref<SearchState>(null);
 
   const showsByGenre = computed(() => {
-    const results = shows.value.currentPage?.data.reduce((output, show) => {
-      show.genres.forEach((genre) => {
+    const results = shows.value.currentPage?.data.reduce((output: Record<string, Shows>, show) => {
+      show.genres.forEach((genre: keyof typeof output) => {
         /**
          * In the absence of a recommendation engine or usable analytics,
          * I am randomly shuffling in each genre list to ensure that
@@ -36,7 +36,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
     const resultsArray = Object.keys(results ?? {}).map((key) => {
       return {
         genre: key,
-        shows: results[key],
+        shows: results?.[key],
       };
     });
 
@@ -57,8 +57,8 @@ export const useTvMaze = defineStore('tvMaze', () => {
     const randomIndex = Math.floor(Math.random() * (shows.value.currentPage?.data.length ?? 0));
     getCast(shows.value.currentPage?.data[randomIndex].id as number);
     getImages(shows.value.currentPage?.data[randomIndex].id as number)
-    .then((images) => {
-      const banner = images.find((image: unknown) => image.type === 'banner');
+    .then((images: Image[]) => {
+      const banner = images.find((image: Image) => image.type === 'banner');
       randomShowBanner.value = banner?.resolutions?.original?.url ?? images[0].resolutions.original.url;
     });
 
@@ -95,7 +95,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
     const results = await getShowDetails(id);
 
     showDetails.value = results;
-    detailsBanner.value = results.images.find((image: unknown) => image.type === 'banner')?.resolutions?.original?.url ?? results.images[0].resolutions.original.url;
+    detailsBanner.value = results.images.find((image: Image) => image.type === 'banner')?.resolutions?.original?.url ?? results.images[0].resolutions.original.url;
     return results;
   };
 
