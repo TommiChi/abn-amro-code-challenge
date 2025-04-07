@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
 import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
+import HomeView from '../views/HomeView.vue';
+import NotFound from '../views/NotFound.vue';
 
 const firebaseConfig = {
   apiKey: "AIzaSyApavUqR6DH4c96Es63CeOz4OizYDT8FhM",
@@ -25,9 +26,17 @@ const router = createRouter({
       },
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: HomeView,
+      path: '/browse',
+      name: 'browse',
+      component: () => import('@/views/Overview.vue'),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/shows/:id',
+      name: 'details',
+      component: () => import('@/views/ShowDetails.vue'),
       meta: {
         requiresAuth: true,
       },
@@ -40,6 +49,14 @@ const router = createRouter({
       },
       component: () => import('@/views/Login.vue'),
     },
+    {
+      path: '/:pathMatch(.*)*', // This matches any path that hasn't been matched above
+      name: 'NotFound',
+      component: NotFound,
+      meta: {
+        requiresAuth: false,
+      },
+    },
   ],
 });
 
@@ -47,28 +64,24 @@ router.beforeEach(async (to: RouteLocationNormalized, from, next) => {
   initializeApp(firebaseConfig);
   const auth = getAuth();
   const requiresAuth = to.matched.some((record) => {
-    console.warn('/!\\ RECORD:\n', record);
     return record.meta.requiresAuth;
   });
 
-  next();
-  if (requiresAuth) {
-    // Check if the user is authenticated
-    const user: User | null = await new Promise((resolve) => {
-      onAuthStateChanged(auth, (user) => {
-        resolve(user);
-      });
+  const user: User | null = await new Promise((resolve) => {
+    onAuthStateChanged(auth, (user) => {
+      resolve(user);
     });
+  });
 
+  if (requiresAuth) {
     if (!user) {
-      // User is not logged in, redirect to login
       next('/login');
     } else {
-      // User is logged in, proceed to the route
       next();
     }
+  } else if (to.path === '/' && user) {
+    next('/browse');
   } else {
-    // Route does not require authentication, proceed
     next();
   }
 });
