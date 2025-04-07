@@ -167,8 +167,10 @@ export const getCast = async (id: number) => {
 export const getShowDetails = async (id: number) => {
   const cast = await getCast(id);
   const images = await getShowImages(id);
-  const shows = await getShows();
-  const show = shows.data.find((show) => show.id === id);
+  const show = await tvMazeApiCall({
+    endpoint: `shows/${id}`,
+  });
+
   return { cast, images, show };
 };
 
