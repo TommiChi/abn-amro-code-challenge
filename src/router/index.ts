@@ -79,7 +79,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from, next) => {
     } else {
       next();
     }
-  } else if (to.path === '/' && user) {
+  } else if (['/', '/login'].includes(to.path) && user) {
     next('/browse');
   } else {
     next();
