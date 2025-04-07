@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { getShows as getShowsService, searchShows as searchShowsService, getCast as getCastService, getShowImages, getShowDetails, type ShowsResponse, type Shows, type Image, type SearchReasult } from '@/services/tvmaze';
+import { getShows as getShowsService, searchShows as searchShowsService, getCast as getCastService, getShowImages, getShowDetails, type ShowsResponse, type Shows, type Image, type SearchReasult, type Show, type CastMember } from '@/services/tvmaze';
 
 type ShowsState = {
   paginationHistory: ShowsResponse[];
@@ -41,7 +41,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
     return resultsArray;
   });
 
-  const showDetails = ref<unknown>(null);
+  const showDetails = ref<{ cast: CastMember[]; images: Image[]; show: Show; } | null>(null);
   const detailsBanner = ref<string | null>(null);
 
   const showImages = ref<unknown>(null);
@@ -92,7 +92,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
   const getDetails = async (id: number) => {
     const results = await getShowDetails(id);
 
-    showDetails.value = results;
+    showDetails.value = { ...results, show: results.show as Show };
     detailsBanner.value = results.images.find((image: Image) => image.type === 'banner')?.resolutions?.original?.url ?? results.images[0].resolutions.original.url;
     return results;
   };
