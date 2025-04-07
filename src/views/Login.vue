@@ -1,14 +1,33 @@
 <template>
-  <div class="login">
-    This is my login page
-  </div>
+  <WithLogoHeader class="flex flex-col items-center justify-center mt-[58px]">
+    <h1 class="text-2xl text-logo-yellow">Sign in with:</h1>
+    <ul class="list-disc list-inside">
+      <li class="text-2xl text-logo-green"><button @click="signInWithGoogle"
+          class="underline cursor-pointer transition duration-300 ease-out hover:transform-[scale(1.1)]">Google</button>
+      </li>
+    </ul>
+  </WithLogoHeader>
+
 </template>
 
-<style>
-.login {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-}
-</style>
+<script setup lang="ts">
+import WithLogoHeader from '@/components/WithLogoHeader.vue';
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const signInWithGoogle = () => {
+  console.warn('Sign in with Google!!!!');
+
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+
+  signInWithPopup(auth, provider).then((result) => {
+    console.warn(`/!\\ AUTHENTICATED /!\\\n`, { result });
+    router.replace('/browse');
+  }).catch((error) => {
+    console.error(`/!\\ AUTHENTICATION ERROR /!\\\n`, { error });
+  });
+};
+</script>
