@@ -3,6 +3,7 @@ import { onMounted, watch } from 'vue';
 import { useTvMaze } from '@/stores/shows';
 import Stars from '@/components/Stars.vue';
 import WithLogoHeader from '@/components/WithLogoHeader.vue';
+import NetflixAnimation from '@/components/NetflixAnimation.vue';
 
 const showsStore = useTvMaze();
 
@@ -28,8 +29,8 @@ onMounted(() => {
     <section class="flex flex-row h-[70px]">
       <span class="grow-[1] "></span>
       <WithLogoHeader class="flex flex-row items-center grow-[2] relative">
-        <input type="text" placeholder="Search for a show..." class="w-[50px] h-[50px] border border-red-500 grow-[1]"
-          @input="debounce" />
+        <input type="text" placeholder="Search for a show..."
+          class="w-[50px] h-[50px] border border-red-500 grow-[1] p-[10px]" @input="debounce" />
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
           class="absolute left-[calc(100%-40px)] top-[19px] z-10 w-8 -scale-x-100" fill="#ffffff">
           <path
@@ -96,6 +97,7 @@ onMounted(() => {
       </ul>
     </div>
   </main>
+  <NetflixAnimation></NetflixAnimation>
 </template>
 
 <style scoped>
