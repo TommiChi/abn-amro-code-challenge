@@ -31,3 +31,9 @@ The app itself contains the basic essential features:
 animated splash screen to keep the end user entertained while data is being fetched.
 - A (authenticated) show detail page. Accessible via the overview page, or directly if you know the show ID
 - A search bar, that starts making your search as you type and displays the results in an overlay
+
+### CI/CD
+For this project the CI/CD process is as simple as it gets; every push merge to the main branch kicks off a production build in Vercel. Creating a merge request also creates a "feature" build, that reflects the state of your feature branch.
+
+### Commits
+Every commit to the repository follows a conventional commit (+ some extra details) pattern. I have gotten into the habit as in past projects such naming conventions were used to automate the process of release notes, dermining what type of deployment (major/minor/patch) will be made, and which stakeholders to notify.
