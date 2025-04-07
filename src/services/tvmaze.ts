@@ -152,6 +152,11 @@ export type CastMember = {
   voice: boolean;
 };
 
+export type SearchReasult = {
+  score: number;
+  show: Show;
+};
+
 const BASE_URL = 'https://api.tvmaze.com';
 
 const apiCache: ApiCache = {};

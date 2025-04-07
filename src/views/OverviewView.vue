@@ -47,7 +47,7 @@ onMounted(() => {
             <li v-for="show in item.shows" :key="show.id"
               class="relative overflow-hidden h-[225px] w-[150px] object-cover cursor-pointer inline-block overflow-auto">
               <RouterLink :to="`/shows/${show.id}`" class="absolute top-0 left-0 w-[100%] h-[100%]">
-                <img :src="show.image.original" :alt="`Poster of ${show.name}`"
+                <img :src="show.image?.original" :alt="`Poster of ${show.name}`"
                   class="object-cover min-w-[100%] min-h-[100%]" />
                 <h3
                   class="absolute top-0 left-0 w-[100%] h-[100%] bg-[rgba(0,0,0,0.5)] font-bold text-center content-center opacity-[0] hover:opacity-[1] transition duration-300 ease-out">
@@ -63,7 +63,7 @@ onMounted(() => {
     <div class="fixed top-[70px] left-0 w-[100vw] h-[calc(100vh-70px)] bg-[rgba(0,0,0,0.8)] z-[100] p-[10px] pl-[50px]"
       v-if="showsStore.searchResults">
       <ul class="flex flex-col flex-wrap h-[100%] gap-[50px]">
-        <li v-for="item in showsStore.searchResults.data" :key="item.show.id">
+        <li v-for="item in (showsStore.searchResults.data)" :key="item.show.id">
           <RouterLink :to="`/shows/${item.show.id}`" class="flex flex-row gap-[20px] items-center">
             <img :src="item.show.image?.medium || '/images/abn-amro_logo.jpeg'" :alt="`Poster of ${item.show.name}`"
               class="w-[75px] h-[calc(75px*3/2)] object-cover" />

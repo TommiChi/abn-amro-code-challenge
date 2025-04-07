@@ -1,14 +1,12 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { getShows as getShowsService, searchShows as searchShowsService, getCast as getCastService, getShowImages, getShowDetails, type ShowsResponse, type Shows, type Image } from '@/services/tvmaze';
+import { getShows as getShowsService, searchShows as searchShowsService, getCast as getCastService, getShowImages, getShowDetails, type ShowsResponse, type Shows, type Image, type SearchReasult } from '@/services/tvmaze';
 
 type ShowsState = {
   paginationHistory: ShowsResponse[];
   currentPage: ShowsResponse | null;
   pageIndex: number | null;
 };
-
-type SearchState = unknown;
 
 export const useTvMaze = defineStore('tvMaze', () => {
   const shows = ref<ShowsState>({
@@ -17,7 +15,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
     pageIndex: null,
   });
 
-  const searchResults = ref<SearchState>(null);
+  const searchResults = ref<{ data: SearchReasult[] } | null>(null);
 
   const showsByGenre = computed(() => {
     const results = shows.value.currentPage?.data.reduce((output: Record<string, Shows>, show) => {
@@ -75,7 +73,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
 
   const searchShows = async (query: { [key: string]: string }) => {
     const results = await searchShowsService(query);
-    searchResults.value = results;
+    searchResults.value = results as { data: SearchReasult[] };
     return results;
   };
 
