@@ -97,5 +97,9 @@ export const useTvMaze = defineStore('tvMaze', () => {
     return results;
   };
 
-  return { shows, showsByGenre, randomShow, randomShowCast, searchResults, showDetails, showImages, randomShowBanner, detailsBanner, getDetails, getCast, getShows, searchShows };
+  const resetSearch = () => {
+    searchResults.value = null;
+  }
+
+  return { shows, showsByGenre, randomShow, randomShowCast, searchResults, showDetails, showImages, randomShowBanner, detailsBanner, getDetails, getCast, getShows, searchShows, resetSearch };
 });

@@ -64,7 +64,8 @@ onMounted(() => {
       v-if="showsStore.searchResults">
       <ul class="flex flex-col flex-wrap h-[100%] gap-[50px]">
         <li v-for="item in (showsStore.searchResults.data)" :key="item.show.id">
-          <RouterLink :to="`/shows/${item.show.id}`" class="flex flex-row gap-[20px] items-center">
+          <RouterLink :to="`/shows/${item.show.id}`" class="flex flex-row gap-[20px] items-center"
+            @click="showsStore.resetSearch">
             <img :src="item.show.image?.medium || '/images/abn-amro_logo.jpeg'" :alt="`Poster of ${item.show.name}`"
               class="w-[75px] h-[calc(75px*3/2)] object-cover" />
             <h3 class="font-bold">{{ item.show.name }}</h3>

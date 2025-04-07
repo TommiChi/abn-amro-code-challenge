@@ -10,6 +10,10 @@ const debouncedSearch = (() => {
     const input = event.currentTarget as HTMLInputElement;
     clearTimeout(timeout);
     timeout = setTimeout(() => {
+      if (input.value === '') {
+        showsStore.resetSearch();
+        return;
+      }
       showsStore.searchShows({ q: input.value })
     }, 500);
   };
