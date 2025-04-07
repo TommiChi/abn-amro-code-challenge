@@ -1,3 +1,11 @@
+interface Link {
+  href: string;
+};
+
+interface NamedLink extends Link {
+  name: string;
+};
+
 type TvMazeApiCall = {
   endpoint: string;
   query?: {
@@ -5,21 +13,81 @@ type TvMazeApiCall = {
   };
 };
 
-type Result = {
-  [key: string]: { [key: string]: string | number | boolean | Result } | (string | number | boolean)[] | string | number | boolean;
-};
-
-type Results = Result[];
-
 type ApiCache = {
   [key: string]: {
-    value: Results;
+    value: Shows;
     timestamp: number;
   }
+};
+
+type Country = {
+  name: string;
+  code: string;
+  timezone: string;
+};
+
+type Network = {
+  id: number;
+  name: string;
+  country: Country | null;
+  officialSite: string | null;
+};
+
+type Schedule = {
+  time: string;
+  days: string[];
+};
+
+type Rating = {
+  average: number | null;
+};
+
+type Externals = {
+  tvrage: number | null;
+  thetvdb: number | null;
+  imdb: string | null;
+};
+
+type Image = {
+  medium: string;
+  original: string;
+};
+
+type Links = {
+  self: Link;
+  previousepisode?: NamedLink | null;
+};
+
+export type Show = {
+  id: number;
+  url: string;
+  name: string;
+  type: string;
+  language: string;
+  genres: string[];
+  status: string;
+  runtime: number | null;
+  averageRuntime: number | null;
+  premiered: string | null;
+  ended: string | null;
+  officialSite: string | null;
+  schedule: Schedule;
+  rating: Rating;
+  weight: number;
+  network: Network | null;
+  webChannel: Network | null;
+  dvdCountry: Country | null;
+  externals: Externals;
+  image: Image | null;
+  summary: string | null;
+  updated: number;
+  _links: Links;
 }
 
+export type Shows = Show[];
+
 export type ShowsResponse = {
-  data: Results;
+  data: Shows;
   page: number;
   hasNextPage: boolean;
 };
@@ -28,7 +96,7 @@ const BASE_URL = 'https://api.tvmaze.com';
 
 const apiCache: ApiCache = {};
 
-async function tvMazeApiCall({ endpoint, query }: TvMazeApiCall): Promise<Results> {
+async function tvMazeApiCall({ endpoint, query }: TvMazeApiCall): Promise<Shows> {
   const queryString = !query ? '' : `?${Object.entries(query).map(([key, value]) => `${key}=${value}`).join('&')}`;
   const url = `${BASE_URL}/${endpoint}${queryString}`;
 
@@ -80,3 +148,28 @@ export const getShows = async (page?: number): Promise<ShowsResponse> => {
 };
 
 export const searchShows = async (query: string) => {};
+
+export const getCast = async (id: number) => {
+  const results = await tvMazeApiCall({
+    endpoint: `shows/${id}/cast`,
+  });
+
+  return results;
+}
+
+export const getShowDetails = async (id: number) => {
+  const cast = await getCast(id);
+  const images = await getShowImages(id);
+  const shows = await getShows();
+  const show = shows.data.find((show) => show.id === id);
+  return { cast, images, show };
+};
+
+export const getShowImages = async (id: number) => {
+  const results = await tvMazeApiCall({
+    endpoint: `shows/${id}/images`,
+  });
+
+  return results;
+}
+
