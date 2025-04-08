@@ -90,6 +90,8 @@ export const useTvMaze = defineStore('tvMaze', () => {
   };
 
   const getDetails = async (id: number) => {
+    detailsBanner.value = null;
+    showDetails.value = null;
     const results = await getShowDetails(id);
 
     showDetails.value = { ...results, show: results.show as Show };
