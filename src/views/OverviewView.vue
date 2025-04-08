@@ -4,6 +4,7 @@ import { useTvMaze } from '@/stores/shows';
 import Stars from '@/components/RatingStars.vue';
 import NetflixAnimation from '@/components/NetflixAnimation.vue';
 import SearchBar from '@/components/SearchBar.vue';
+import Image from '@/components/LazyImage.vue';
 
 const showsStore = useTvMaze();
 
@@ -17,7 +18,7 @@ onMounted(() => {
     v-if="showsStore.randomShowCast && showsStore.randomShow && showsStore.randomShowBanner">
     <SearchBar />
     <div class="relative w-[100%] h-[400px] overflow-hidden">
-      <img :src="showsStore.randomShowBanner ?? ''" :alt="`Poster of ${showsStore.randomShow.name}`"
+      <Image :src="showsStore.randomShowBanner" :alt="`Poster of ${showsStore.randomShow.name}`"
         class="relative object-cover min-w-[100%] min-h-[100%] top-[50%] left-[50%] transform-[translate(-50%,-50%)]" />
       <article
         class="absolute left-0 top-0 bg-[rgba(0,0,0,0.5)] p-[10px] w-[250px] h-[100%] flex flex-col gap-[10px] overflow-hidden">
@@ -47,7 +48,7 @@ onMounted(() => {
             <li v-for="show in item.shows" :key="show.id"
               class="relative overflow-hidden h-[225px] w-[150px] object-cover cursor-pointer inline-block overflow-auto">
               <RouterLink :to="`/shows/${show.id}`" class="absolute top-0 left-0 w-[100%] h-[100%]">
-                <img :src="show.image?.original" :alt="`Poster of ${show.name}`"
+                <Image :src="show.image?.original ?? ''" :alt="`Poster of ${show.name}`"
                   class="object-cover min-w-[100%] min-h-[100%]" />
                 <h3
                   class="absolute top-0 left-0 w-[100%] h-[100%] bg-[rgba(0,0,0,0.5)] font-bold text-center content-center opacity-[0] hover:opacity-[1] transition duration-300 ease-out">
@@ -66,7 +67,7 @@ onMounted(() => {
         <li v-for="item in (showsStore.searchResults.data)" :key="item.show.id">
           <RouterLink :to="`/shows/${item.show.id}`" class="flex flex-row gap-[20px] items-center"
             @click="showsStore.resetSearch">
-            <img :src="item.show.image?.medium || '/images/abn-amro_logo.jpeg'" :alt="`Poster of ${item.show.name}`"
+            <Image :src="item.show.image?.medium ?? ''" :alt="`Poster of ${item.show.name}`"
               class="w-[75px] h-[calc(75px*3/2)] object-cover" />
             <h3 class="font-bold">{{ item.show.name }}</h3>
           </RouterLink>
