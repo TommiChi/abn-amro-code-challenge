@@ -8,6 +8,13 @@ type ShowsState = {
   pageIndex: number | null;
 };
 
+type ShowsBySingleGenre = {
+  genre: string;
+  page: number;
+  shows: Shows;
+  hasNextPage: boolean;
+}
+
 export const useTvMaze = defineStore('tvMaze', () => {
   const shows = ref<ShowsState>({
     paginationHistory: [],
@@ -44,7 +51,7 @@ export const useTvMaze = defineStore('tvMaze', () => {
   const showDetails = ref<{ cast: CastMember[]; images: Image[]; show: Show; } | null>(null);
   const detailsBanner = ref<string | null>(null);
 
-  const showImages = ref<unknown>(null);
+  const showImages = ref<Image[] | null>(null);
 
   const randomShowCast = ref<string[]>([]);
   const randomShowBanner = ref<string | null>(null);
@@ -103,5 +110,34 @@ export const useTvMaze = defineStore('tvMaze', () => {
     searchResults.value = null;
   }
 
-  return { shows, showsByGenre, randomShow, randomShowCast, searchResults, showDetails, showImages, randomShowBanner, detailsBanner, getDetails, getCast, getShows, searchShows, resetSearch };
+  const showsBySingleGenre = ref<ShowsBySingleGenre>({
+    genre: '',
+    page: 0,
+    shows: [],
+    hasNextPage: true,
+  });
+  const getMoreByGenre = async (genre: string) => {
+    const capitalised = genre.replace(/\b\w/g, letter => letter.toUpperCase());
+
+    if (showsBySingleGenre.value.genre !== capitalised) {
+      showsBySingleGenre.value = {
+        genre: capitalised,
+        page: 0,
+        shows: [],
+        hasNextPage: true,
+      };
+    }
+
+    if (!showsBySingleGenre.value.hasNextPage) return;
+
+    const results = await getShowsService(showsBySingleGenre.value.page);
+    const byGenre = results.data.filter((show) => show.genres.includes(capitalised));
+    showsBySingleGenre.value.shows = [...showsBySingleGenre.value.shows, ...byGenre];
+    showsBySingleGenre.value.hasNextPage = results.hasNextPage;
+    if (results.hasNextPage) showsBySingleGenre.value.page += 1;
+
+    return showsBySingleGenre.value;
+  };
+
+  return { shows, showsByGenre, randomShow, randomShowCast, searchResults, showDetails, showImages, randomShowBanner, detailsBanner, showsBySingleGenre, getMoreByGenre, getDetails, getCast, getShows, searchShows, resetSearch };
 });

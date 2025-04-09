@@ -6,6 +6,7 @@ import NetflixAnimation from '@/components/NetflixAnimation.vue';
 import SearchBar from '@/components/SearchBar.vue';
 import Image from '@/components/LazyImage.vue';
 import SearchResults from '@/components/SearchResults.vue';
+import GenreSelector from '@/components/GenreSelector.vue';
 
 const showsStore = useTvMaze();
 
@@ -17,8 +18,9 @@ onMounted(() => {
 <template>
   <main class="w-[100vw] overflow-hidden"
     v-if="showsStore.randomShowCast && showsStore.randomShow && showsStore.randomShowBanner">
-    <SearchBar />
-    <div class="relative w-[100%] h-[400px] overflow-hidden">
+    <SearchBar class="search-bar fixed top-0 left-0 w-[100%] z-[10]" />
+    <GenreSelector class="fixed top-[10px] right-[10px] z-[10]" />
+    <header class="relative w-[100vw] h-[400px] overflow-hidden mt-[70px]">
       <Image :src="showsStore.randomShowBanner" :alt="`Poster of ${showsStore.randomShow.name}`"
         class="relative object-cover min-w-[100%] min-h-[100%] top-[50%] left-[50%] transform-[translate(-50%,-50%)]" />
       <article
@@ -37,7 +39,7 @@ onMounted(() => {
           More info
         </RouterLink>
       </article>
-    </div>
+    </header>
     <div class="p-[40px]">
       <section v-for="item in showsStore.showsByGenre" :key="item.genre" class="mb-[40px]">
         <span class="flex flex-row items-center gap-[10px]">
@@ -68,6 +70,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.search-bar {
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+}
 .ellipsis-text {
   display: -webkit-box;
   -webkit-box-orient: vertical;

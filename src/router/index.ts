@@ -34,6 +34,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/browse/:genre',
+      name: 'browseByGenre',
+      component: () => import('@/views/GenreView.vue'),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: '/shows/:id',
       name: 'details',
       component: () => import('@/views/ShowDetailsView.vue'),
