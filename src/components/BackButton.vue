@@ -8,7 +8,6 @@ const backUrl = ref<string>(router.options.history.state.back as string);
 const fallbackUrl = '/browse';
 
 const goBack = () => {
-  console.warn('@Go back\n', { backUrl: backUrl.value });
   if (!backUrl.value) {
     router.push(fallbackUrl);
   } else {
