@@ -4,6 +4,7 @@ import { useTvMaze } from '@/stores/shows';
 import Stars from '@/components/RatingStars.vue';
 import { useRoute } from 'vue-router';
 import Image from '@/components/LazyImage.vue';
+import BackButton from '@/components/BackButton.vue';
 
 const showsStore = useTvMaze();
 const route = useRoute();
@@ -19,15 +20,7 @@ onMounted(() => {
       <Image :src="showsStore.detailsBanner ?? ''" :alt="`Poster of ${showsStore.showDetails.show.name}`"
         class="relative object-cover min-w-[100%] min-h-[100%] top-[50%] left-[50%] transform-[translate(-50%,-50%)]" />
       <article class="absolute left-0 top-0 bg-[rgba(0,0,0,0.5)] p-[10px] w-[250px] h-[100%] flex flex-col gap-[10px]">
-        <RouterLink to="/browse">
-          <svg class="h-[15px] w-[15px] inline transform-[translateY(-1px)]" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 32 32" fill="#ffffff">
-            <path
-              d="M 19.03125 4.28125 L 8.03125 15.28125 L 7.34375 16 L 8.03125 16.71875 L 19.03125 27.71875 L 20.46875 26.28125 L 10.1875 16 L 20.46875 5.71875 Z">
-            </path>
-          </svg>
-          BACK
-        </RouterLink>
+        <BackButton />
         <h1 class="font-bold text-[24px] whitespace-nowrap">{{ showsStore.showDetails.show.name }}</h1>
         <Image :src="showsStore.showDetails.show.image?.medium ?? ''"
           :alt="`Poster of ${showsStore.showDetails.show.name}`" class="h-[200px] w-[calc(200px*2/3)]" />
