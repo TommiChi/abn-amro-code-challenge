@@ -6,6 +6,20 @@ import Image from '@/components/LazyImage.vue';
 import WithLogoHeader from '@/components/WithLogoHeader.vue';
 import BackButton from '@/components/BackButton.vue';
 
+const getMoreGenreData = () => {
+  showsStore.getMoreByGenre(genre)
+    .then(() => {
+      setTimeout(() => {
+        const buffer = 225;
+        const isAtBottom = document.documentElement.scrollHeight <= window.innerHeight + window.scrollY + buffer;
+
+        if (isAtBottom && showsStore.showsBySingleGenre.hasNextPage) {
+          getMoreGenreData();
+        }
+      }, 100);
+    });
+};
+
 const showsStore = useTvMaze();
 const route = useRoute();
 const router = useRouter();
@@ -14,7 +28,7 @@ const sentinel = ref<HTMLSpanElement | null>(null);
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      showsStore.getMoreByGenre(genre)
+      getMoreGenreData();
     }
   });
 }, { threshold: 0.1 });

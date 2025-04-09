@@ -24,7 +24,6 @@ const toggleSelector = (event: Event) => {
   event.preventDefault();
   if (selectorHeight.value === collapsed) {
     selectorHeight.value = (collapsed + 10) + (genres.value?.getBoundingClientRect().height ?? 0);
-    console.warn
   } else {
     selectorHeight.value = collapsed;
   }
