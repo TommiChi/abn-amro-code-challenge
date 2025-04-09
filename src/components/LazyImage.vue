@@ -20,7 +20,7 @@ const handleLoadingError = (event: Event) => {
   element.setAttribute('alt', fallbackText);
 };
 
-const handleLoaded = (event: Event) => {
+const handleLoaded = () => {
   loaded.value = true;
 };
 </script>

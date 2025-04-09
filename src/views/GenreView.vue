@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useTvMaze } from '@/stores/shows';
 import Image from '@/components/LazyImage.vue';
 import WithLogoHeader from '@/components/WithLogoHeader.vue';
@@ -22,7 +22,6 @@ const getMoreGenreData = () => {
 
 const showsStore = useTvMaze();
 const route = useRoute();
-const router = useRouter();
 const genre = route.path.split('/').pop() as string;
 const sentinel = ref<HTMLSpanElement | null>(null);
 const observer = new IntersectionObserver((entries) => {

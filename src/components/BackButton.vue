@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const route = useRoute();
 const backUrl = ref<string>(router.options.history.state.back as string);
 const fallbackUrl = '/browse';
 
