@@ -30,7 +30,7 @@ onMounted(() => {
         <div>
           {{ showsStore.randomShow.runtime }} minutes - {{ showsStore.randomShow.genres.join(', ') }}
         </div>
-        <div class="grow-[2] ellipsis-text">
+        <div class="ellipsis-text h-[170px]">
           <div class="font-bold">Starring</div>
           {{ showsStore.randomShowCast.join(', ') }}
         </div>
@@ -76,7 +76,7 @@ onMounted(() => {
 .ellipsis-text {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 10;
+  -webkit-line-clamp: 7;
   overflow: hidden;
 }
 
