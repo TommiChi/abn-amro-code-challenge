@@ -1,50 +1,67 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { describe, it, expect } from 'vitest';
 import SearchBar from '../SearchBar.vue';
+import { useTvMaze } from '@/stores/shows';
+
+let showsStoreMock: ReturnType<typeof useTvMaze>;
+
+vi.mock('@/stores/shows', () => ({
+  useTvMaze: vi.fn(() => showsStoreMock),
+}));
 
 describe('SearchBar.vue', () => {
-  it('renders an input field and a button', () => {
+  beforeEach(() => {
+    showsStoreMock = {
+      searchShows: vi.fn(),
+      resetSearch: vi.fn(),
+    } as unknown as ReturnType<typeof useTvMaze>;
+    vi.clearAllMocks();
+  });
+
+  it('renders the search input', () => {
     const wrapper = mount(SearchBar);
-
-    const input = wrapper.find('input');
-    const button = wrapper.find('button');
-
+    const input = wrapper.find('input[type="text"]');
     expect(input.exists()).toBe(true);
-    expect(button.exists()).toBe(true);
+    expect(input.attributes('placeholder')).toBe('Search for a show...');
   });
 
-  it('binds the input value to the search query', async () => {
+  it('calls debouncedSearch when typing in the input', async () => {
+    vi.useFakeTimers();
     const wrapper = mount(SearchBar);
+    const input = wrapper.find('input[type="text"]');
 
-    const input = wrapper.find('input');
     await input.setValue('test query');
 
-    expect((wrapper.vm as unknown as { searchQuery: string }).searchQuery).toBe('test query');
+    vi.advanceTimersByTime(500);
+    expect(showsStoreMock.searchShows).toHaveBeenCalledWith({ q: 'test query' });
+    vi.useRealTimers();
   });
 
-  it('emits a "search" event with the query when the button is clicked', async () => {
+  it('calls resetSearch when the input is cleared', async () => {
+    vi.useFakeTimers();
     const wrapper = mount(SearchBar);
-
-    const input = wrapper.find('input');
-    const button = wrapper.find('button');
+    const input = wrapper.find('input[type="text"]');
 
     await input.setValue('test query');
-    await button.trigger('click');
+    vi.advanceTimersByTime(500);
+    expect(showsStoreMock.searchShows).toHaveBeenCalledWith({ q: 'test query' });
 
-    expect(wrapper.emitted('search')).toBeTruthy();
-    expect(wrapper.emitted('search')?.[0]).toEqual(['test query']);
+    await input.setValue('');
+    vi.advanceTimersByTime(500);
+    expect(showsStoreMock.resetSearch).toHaveBeenCalled();
+    vi.useRealTimers();
   });
 
-  it('clears the input field after emitting the search event', async () => {
+  it('does not call searchShows or resetSearch immediately when typing', async () => {
+    vi.useFakeTimers();
     const wrapper = mount(SearchBar);
+    const input = wrapper.find('input[type="text"]');
 
-    const input = wrapper.find('input');
-    const button = wrapper.find('button');
+    await input.setValue('test');
+    vi.advanceTimersByTime(300);
 
-    await input.setValue('test query');
-    await button.trigger('click');
-
-    expect((wrapper.vm as unknown as { searchQuery: string }  ).searchQuery).toBe('');
-    expect(input.element.value).toBe('');
+    expect(showsStoreMock.searchShows).not.toHaveBeenCalled();
+    expect(showsStoreMock.resetSearch).not.toHaveBeenCalled();
+    vi.useRealTimers();
   });
 });
