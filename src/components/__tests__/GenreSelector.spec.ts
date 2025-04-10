@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 import { mount } from '@vue/test-utils';
 import GenreSelector from '../GenreSelector.vue';
 import { useTvMaze } from '@/stores/shows';
-import { useRouter } from 'vue-router';
+import { useRouter, type Router } from 'vue-router';
 
 vi.mock('@/stores/shows', () => ({
   useTvMaze: vi.fn(),
@@ -13,8 +13,8 @@ vi.mock('vue-router', () => ({
 }));
 
 describe('GenreSelector.vue', () => {
-  let showsStoreMock: any;
-  let routerMock: any;
+  let showsStoreMock;
+  let routerMock: Router;
 
   beforeEach(() => {
     showsStoreMock = {
@@ -27,10 +27,10 @@ describe('GenreSelector.vue', () => {
 
     routerMock = {
       push: vi.fn(),
-    };
+    } as unknown as Router;
 
-    (useTvMaze as vi.Mock).mockReturnValue(showsStoreMock);
-    (useRouter as vi.Mock).mockReturnValue(routerMock);
+    (useTvMaze as unknown as Mock).mockReturnValue(showsStoreMock);
+    (useRouter as Mock).mockReturnValue(routerMock);
 
     vi.clearAllMocks();
   });

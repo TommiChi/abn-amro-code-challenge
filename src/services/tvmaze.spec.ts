@@ -1,16 +1,13 @@
-import { describe, it, expect, vi, beforeEach, type Mock, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 import {
   getShows,
   searchShows,
   getCast,
-  getShowDetails,
-  getShowImages,
 } from './tvmaze';
 
 global.fetch = vi.fn();
 
-const mockFetch = (data: any) => {
-  // console.warn('@mock fetch:\n', data);
+const mockFetch = (data: unknown) => {
   (fetch as Mock).mockResolvedValueOnce({
     json: vi.fn().mockResolvedValueOnce(data),
   });
@@ -19,13 +16,7 @@ const mockFetch = (data: any) => {
 describe('tvmaze.ts', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // vi.resetAllMocks();
   });
-
-  // afterEach(() => {
-  //   vi.clearAllMocks();
-  //   vi.resetAllMocks();
-  // });
 
   it('fetches a list of shows with pagination', async () => {
     const mockShows = [{ id: 1, name: 'Show 1' }, { id: 2, name: 'Show 2' }];

@@ -1,15 +1,14 @@
 import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 import { mount } from '@vue/test-utils';
 import BackButton from '../BackButton.vue';
-import { useRouter } from 'vue-router';
+import { useRouter, type Router } from 'vue-router';
 
 vi.mock('vue-router', () => ({
   useRouter: vi.fn(),
 }));
 
 describe('BackButton.vue', () => {
-  let routerMock: any;
-
+  let routerMock: Router;
   beforeEach(() => {
     routerMock = {
       options: {
@@ -21,7 +20,7 @@ describe('BackButton.vue', () => {
       },
       back: vi.fn(),
       push: vi.fn(),
-    };
+    } as unknown as Router;
 
     (useRouter as Mock).mockReturnValue(routerMock);
     vi.clearAllMocks();
