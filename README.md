@@ -5,6 +5,13 @@ The purpose of this repository is to create TV Guide app in [Vue 3](https://vuej
 
 This repository has also been coupled to [Vercel](https://vercel.com/), and therefore is publicly accessible at [https://abnflix.vercel.app](https://abnflix.vercel.app).
 
+You can also run the application locally by:
+- Checking out the repository
+- Running `npm install`
+- running `npm run dev`
+
+/!\ PLEASE CHECK THE ["Using the App"](#using-the-app) SECTION BELOW BEFORE DIVING IN! /!\
+
 ## The Codebase
 
 The tech stack chosen for the codebase is:
@@ -17,12 +24,6 @@ The tech stack chosen for the codebase is:
 
 ## Things You Need to Know (Core Concepts)
 
-### Authentication
-The whole idea of introducing Google authentication is to demonstrate in a very basic way (in the router component) how client-side we can route a user based on whether they are authenicated or not. You may log in with any Google account.
-
-### Testing
-The tests present are there to illustrate what types of tests I would be running for such and application, and not necessarily to have 100% test coverage.
-
 ### App
 The app itself contains the basic essential features:
 - A (unauthenticated) homepage. Accessible to everyone. If you are already logged in, you will be automatically rediected to the show overview page
@@ -30,7 +31,28 @@ The app itself contains the basic essential features:
 - A (authenticated) show overview page. The first time you enter the page you will be presented with a "fancy"
 animated splash screen to keep the end user entertained while data is being fetched.
 - A (authenticated) show detail page. Accessible via the overview page, or directly if you know the show ID
+- A (authenticated) genre page. Accessible by selecting a specific genre from the overview page. This page contains an infiinite scroll feature, that will keep requesting new results until there are no more pages to request
+
 - A search bar, that starts making your search as you type and displays the results in an overlay
+- A genre selector that allows you to filter your view to display all the shows of one specific genre
+
+### Authentication
+The original implementation had was using Firebase Google authentication. I was subsequently informed that it would not be possible for ABN AMRO employees to login with a Google account. In order to maintain the flow of the application and not remove any features, Google auth was replaced with a fake login; you just need to click on the fake login link and you will be logged in (it's all moocked internally with custom cookies)
+
+### Using the App
+The first time you go to the home page you will be provided with a link to the login page:
+- Click on the "Sign in" link
+- In the login page, click on the "Fake User" link
+
+After this you will be redirected to the main overview (/browse) page. Fron there you are welcome to click around and test the features of the app
+
+Every subsequent visit (after login) to the "/" and "/login" routes will redirect you back to the "/browse" route
+
+### Testing
+The testing strategy is as follows:
+- Unit tests: components, services and stores
+- E2E (Playwright) tests: views and general interaction
+- Accessibility: this is done in Playwright, in accessibilty.spec.ts . The "Axe" package is used in conjuction with Playwright
 
 ### CI/CD
 For this project the CI/CD process is as simple as it gets; every push merge to the main branch kicks off a production build in Vercel. Creating a merge request also creates a "feature" build, that reflects the state of your feature branch.
