@@ -21,6 +21,7 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
     "@playwright/test": "^1.51.0",
     "@tailwindcss/vite": "^4.1.2",
     "@tsconfig/node22": "^22.0.0",
@@ -33,6 +34,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.21",
+    "axe-core": "^4.10.3",
     "eslint": "^9.21.0",
     "eslint-plugin-playwright": "^2.2.0",
     "eslint-plugin-vue": "~10.0.0",
@@ -47,6 +49,7 @@
     "vite": "^6.2.1",
     "vite-plugin-vue-devtools": "^7.7.2",
     "vitest": "^3.0.8",
+    "vue-axe": "^3.1.2",
     "vue-tsc": "^2.2.8"
   }
 }

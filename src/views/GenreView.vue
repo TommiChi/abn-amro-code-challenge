@@ -59,10 +59,10 @@ onBeforeUnmount(() => {
           class="relative overflow-hidden h-[225px] w-[150px] object-cover cursor-pointer inline-block overflow-auto">
           <Image :src="show.image?.original ?? ''" :alt="`Poster of ${show.name}`"
             class="object-cover min-w-[100%] min-h-[100%]" />
-          <h3
+          <h2
             class="absolute top-0 left-0 w-[100%] h-[100%] bg-[rgba(0,0,0,0.5)] font-bold text-center content-center opacity-[0] hover:opacity-[1] transition duration-300 ease-out">
             {{ show.name }}
-          </h3>
+          </h2>
         </RouterLink>
       </li>
     </ul>

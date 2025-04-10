@@ -3,8 +3,6 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <Transition name="fade" mode="out-in">
-    <RouterView />
-  </Transition>
+  <RouterView />
 </template>
 
