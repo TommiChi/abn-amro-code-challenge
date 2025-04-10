@@ -54,6 +54,8 @@ The testing strategy is as follows:
 - E2E (Playwright) tests: views and general interaction
 - Accessibility: this is done in Playwright, in accessibilty.spec.ts . The "Axe" package is used in conjuction with Playwright
 
+The point was not quite to have 100% test coverage, but more to illustrate what strategies can be employed and what types of things we need to look out for
+
 ### CI/CD
 For this project the CI/CD process is as simple as it gets; every push merge to the main branch kicks off a production build in Vercel. Creating a merge request also creates a "feature" build, that reflects the state of your feature branch.
 
