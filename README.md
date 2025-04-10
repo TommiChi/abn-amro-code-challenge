@@ -48,6 +48,9 @@ After this you will be redirected to the main overview (/browse) page. Fron ther
 
 Every subsequent visit (after login) to the "/" and "/login" routes will redirect you back to the "/browse" route
 
+### Custom Components and Accessibility
+I have included a custom genre selector dropdown on the homepage to illustrate the kind of thing required to have a truly accessible custom component. In a real world scenrio I might opt for using a library like Shadcn that has been thoroughly vetted and battle tested over time, but in the interest of keeping external dependencies to a minimum, as well as showcasing a little what can be/needs to be done to in terms of custom components and accessibility, I decided to roll my own component.
+
 ### Testing
 The testing strategy is as follows:
 - Unit tests: components, services and stores

@@ -52,13 +52,13 @@ describe('GenreSelector.vue', () => {
 
   it('toggles the selector height when clicked', async () => {
     const wrapper = mount(GenreSelector);
-    const label = wrapper.find('label');
+    const button = wrapper.find('[role="button"]');
     const section = wrapper.find('#selector');
 
     expect(section.attributes('style')).toContain('height: 50px');
-    await label.trigger('click');
+    await button.trigger('click');
     expect(section.attributes('style')).not.toContain('height: 50px');
-    await label.trigger('click');
+    await button.trigger('click');
     expect(section.attributes('style')).toContain('height: 50px');
   });
 
@@ -70,9 +70,9 @@ describe('GenreSelector.vue', () => {
     expect(wrapper.text()).toContain('Drama');
     expect(routerMock.push).toHaveBeenCalledWith('/browse/Drama');
 
-    await genreItems[0].trigger('click'); // Select "All Genres"
-    expect(wrapper.text()).toContain('All Genres');
-    expect(routerMock.push).toHaveBeenCalledWith('/browse');
+    await genreItems[3].trigger('click'); // Select "Action"
+    expect(wrapper.text()).toContain('Action');
+    expect(routerMock.push).toHaveBeenCalledWith('/browse/Action');
   });
 
   it('does not navigate to an invalid genre', async () => {
