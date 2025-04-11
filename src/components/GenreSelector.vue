@@ -71,6 +71,24 @@ const detectOutsideEvent = (event: KeyboardEvent | MouseEvent | TouchEvent) => {
   }
 };
 
+const handleTab = (event: KeyboardEvent) => {
+  if (expanded.value !== true) {
+    event.preventDefault();
+    const focusableSelectors = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled]):not([type="hidden"])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([disabled]):not([tabindex="-1"])',
+    ];
+    const focusableElements = Array.from(document.querySelectorAll(focusableSelectors.join(', ')));
+    const currentElementPosition = focusableElements.indexOf(event.target as HTMLElement);
+    const nextOutsideElement = focusableElements.splice(currentElementPosition, focusableElements.length).find((element) => !genreSelector.value?.contains(element));
+    (nextOutsideElement as HTMLElement).focus();
+  }
+};
+
 onMounted(() => {
   window.addEventListener('click', detectOutsideEvent);
   window.addEventListener('touchstart', detectOutsideEvent);
@@ -91,7 +109,8 @@ onBeforeUnmount(() => {
     @keydown.down.prevent="keyboardNavigation(1)" ref="genreSelector">
     <div @click="toggleSelector" class="flex flex-row items-center gap-[10px] cursor-pointer" :aria-expanded="expanded"
       aria-controls="genre-list" role="button" tabindex="0" @keydown.enter="toggleSelector"
-      @keydown.space.prevent="toggleSelector" aria-labelledby="inner-text" ref="innerContainer">
+      @keydown.space.prevent="toggleSelector" @keydown.tab="handleTab" aria-labelledby="inner-text"
+      ref="innerContainer">
       <span tabindex="-1" id="inner-text">{{ selectedGenre }}</span>
 
       <div class="transition-all duration-200 ease-out"
